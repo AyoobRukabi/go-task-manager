@@ -2,39 +2,21 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"github.com/AyoobRukabi/go-task-manager/db"
-
+	"github.com/AyoobRukabi/go-task-manager/routes"
+	"github.com/AyoobRukabi/go-task-manager/handlers"
 )
 
 func main() {
-	// Create a Gin router
 	r := gin.Default()
-	
-	db.ConnectDatabase() // connect to DB
+	db.ConnectDatabase() // Connect to Postgres/GORM
 
+	// Week 1 routes
+	r.GET("/ping", handlers.PingHandler)
+	r.GET("/hello", handlers.HelloHandler)
 
-	// Define a simple route
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	// Week 3 Task routes
+	routes.TaskRoutes(r)
 
-
-
-
-	r.GET("/hello", func(c *gin.Context) {
-		name := c.DefaultQuery("name", "Guest")
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello " + name,
-    })
-})
-	
-
-// Start server on port 8080
-r.Run(":8080")
-
-
+	r.Run(":8080")
 }
-
