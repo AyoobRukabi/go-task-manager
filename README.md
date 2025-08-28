@@ -14,6 +14,6 @@ Week 1 goal: set up a simple API server using Gin.
 
 ### 1. Clone repository
 ```bash
-git clone https://github.com/yourname/go-task-manager.git
+git clone https://github.com/AyoobRukabi/go-task-manager.git
 cd go-task-manager/cmd
 
