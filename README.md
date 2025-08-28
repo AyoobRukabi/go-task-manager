@@ -32,11 +32,16 @@ go-task-manager/
 │  └─ db.go           # database connection
 ├─ handlers/
 │  ├─ general.go      # /ping and /hello handlers
-│  └─ task.go         # CRUD task handlers
+│  ├─ task.go         # CRUD task handlers
+│  └─ user.go         # JWT auth handlers
 ├─ models/
-│  └─ task.go         # Task struct
+│  ├─ task.go         # Task struct
+│  └─ user.go         # User struct
 ├─ routes/
-│  └─ task.go         # task routes registration
+│  ├─ task.go         # Task routes registration
+│  └─ user.go         # User routes registration
+├─ middleware/
+│  └─ auth.go         # JWT middleware
 ├─ go.mod
 └─ README.md
 ```
@@ -52,7 +57,13 @@ git clone https://github.com/AyoobRukabi/go-task-manager.git
 cd go-task-manager
 ```
 
-2. **Run the server**
+2. **Set JWT secret environment variable**
+
+```bash
+export JWT_SECRET="your_strong_secret_here"
+```
+
+3. **Run the server**
 
 ```bash
 go run ./cmd/main.go
@@ -64,13 +75,13 @@ Server runs at `http://localhost:8080`.
 
 ## Week 1 – Basic Endpoints
 
-* **GET /ping** → returns:
+* **GET /ping**
 
 ```json
 {"message":"pong"}
 ```
 
-* **GET /hello?name=YourName** → returns:
+* **GET /hello?name=YourName**
 
 ```json
 {"message":"Hello YourName"}
@@ -81,26 +92,24 @@ Server runs at `http://localhost:8080`.
 ## Week 2 – Database & Models
 
 * PostgreSQL connected with GORM
-* `Task` model created:
+* `Task` model:
 
 ```go
 type Task struct {
-    ID        uint      `gorm:"primaryKey" json:"id"`
-    Title     string    `json:"title" binding:"required"`
-    Completed bool      `json:"completed"`
+    ID        uint       `gorm:"primaryKey" json:"id"`
+    Title     string     `json:"title" binding:"required"`
+    Completed bool       `json:"completed"`
     DueDate   *time.Time `json:"due_date,omitempty"`
-    CreatedAt time.Time `json:"created_at"`
-    UpdatedAt time.Time `json:"updated_at"`
+    CreatedAt time.Time  `json:"created_at"`
+    UpdatedAt time.Time  `json:"updated_at"`
 }
 ```
 
-* Database auto-migrates the `tasks` table on startup
+* Database auto-migrates `tasks` table on startup
 
 ---
 
 ## Week 3 – CRUD Endpoints
-
-* Full REST API for tasks:
 
 | Method | Endpoint    | Description           |
 | ------ | ----------- | --------------------- |
@@ -110,15 +119,15 @@ type Task struct {
 | PUT    | /tasks/\:id | Update a task         |
 | DELETE | /tasks/\:id | Delete a task         |
 
-* **Request validation:**
+**Request validation:**
 
-  * `title` is required
-  * `completed` defaults to false
-  * `due_date` is optional
+* `title` is required
+* `completed` defaults to false
+* `due_date` is optional
 
 ---
 
-### Example curl commands
+### Example curl commands (Week 3)
 
 **Create a task:**
 
@@ -131,7 +140,7 @@ curl -X POST http://localhost:8080/tasks \
 **Get all tasks:**
 
 ```bash
-curl http://localhost:8080/tasks
+curl http://localhost:8080/tasks/
 ```
 
 **Get task by ID:**
@@ -156,30 +165,17 @@ curl -X DELETE http://localhost:8080/tasks/1
 
 ---
 
-## Next Steps (Week 4)
+## Week 4 – JWT Authentication
 
-* Add **JWT authentication**
-* Write **unit tests**
-* Add **Swagger API documentation**
-* Dockerize the app and deploy
-
-
-
-
----
-
-### Week 4 (JWT Authentication)
-
-## Features (Week 4)
+### Features
 
 * JWT-based **user authentication**
 * Register and login users
 * Protect task routes with **Authorization: Bearer token**
-* Ready for Docker, Swagger, and deployment
 
 ---
 
-## User Routes
+### User Routes
 
 | Method | Endpoint  | Description             |
 | ------ | --------- | ----------------------- |
@@ -188,7 +184,7 @@ curl -X DELETE http://localhost:8080/tasks/1
 
 ---
 
-### Example curl commands
+#### Example curl commands (Users)
 
 **Register a user:**
 
@@ -198,7 +194,7 @@ curl -X POST http://localhost:8080/register \
 -d '{"username":"Ayoob","password":"mypassword"}'
 ```
 
-**Login and get token:**
+**Login to get token:**
 
 ```bash
 curl -X POST http://localhost:8080/login \
@@ -216,7 +212,7 @@ Response:
 
 ---
 
-## Task Routes (JWT Protected)
+### Task Routes (JWT Protected)
 
 | Method | Endpoint    | Description           |
 | ------ | ----------- | --------------------- |
@@ -232,7 +228,11 @@ Response:
 Authorization: Bearer <token>
 ```
 
-**Create a task (example):**
+---
+
+#### Example curl commands (Tasks with JWT)
+
+**Create a task:**
 
 ```bash
 curl -X POST http://localhost:8080/tasks/ \
@@ -266,9 +266,9 @@ curl -X DELETE http://localhost:8080/tasks/1 \
 
 ---
 
-## Environment Variable
+### Environment Variable
 
-Set the JWT secret **before running the app**:
+Set JWT secret **before running the app**:
 
 ```bash
 export JWT_SECRET="your_strong_secret_here"
@@ -276,22 +276,3 @@ go run ./cmd/main.go
 ```
 
 ---
-
-✅ This README now fully documents **Week 4**.
-
-Next step: **commit Week 4 changes + updated README** and push to GitHub.
-
-Here’s the **git command block** you can use:
-
-```bash
-git add .
-git commit -m "Week 4: Add JWT authentication and update README"
-git push origin main
-```
-
----
-
-If you want, I can also **write a final checklist for Week 4** to make sure your repo is completely CV-ready and professional.
-
-Do you want me to do that?
-
