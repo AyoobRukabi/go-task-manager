@@ -1,4 +1,4 @@
-module github.com/AyoobRukabi/go-task-manager.git
+module github.com/AyoobRukabi/go-task-manager
 
 go 1.24.5
 
