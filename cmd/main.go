@@ -3,11 +3,16 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"github.com/AyoobRukabi/go-task-manager/db"
+
 )
 
 func main() {
 	// Create a Gin router
 	r := gin.Default()
+	
+	db.ConnectDatabase() // connect to DB
+
 
 	// Define a simple route
 	r.GET("/ping", func(c *gin.Context) {
