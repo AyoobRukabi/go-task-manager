@@ -19,11 +19,10 @@ func main() {
 
 
 
-
 	r.GET("/hello", func(c *gin.Context) {
-    name := c.DefaultQuery("name", "Guest")
-    c.JSON(http.StatusOK, gin.H{
-        "message": "Hello " + name,
+		name := c.DefaultQuery("name", "Guest")
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Hello " + name,
     })
 })
 	
