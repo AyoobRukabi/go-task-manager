@@ -2,25 +2,30 @@ package db
 
 import (
     "fmt"
-    "gorm.io/driver/postgres"
-    "gorm.io/gorm"
     "log"
     "github.com/AyoobRukabi/go-task-manager/models"
+    "gorm.io/driver/postgres"
+    "gorm.io/gorm"
+    "gorm.io/gorm/logger"
 )
-
 
 var DB *gorm.DB
 
 func ConnectDatabase() {
     dsn := "host=localhost user=postgres password=Go6969 dbname=task_manager port=5432 sslmode=disable"
-    database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+    var err error
+    DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+        Logger: logger.Default.LogMode(logger.Info),
+    })
     if err != nil {
-        log.Fatal("Failed to connect to database:", err)
+        log.Fatalf("[error] failed to connect to database: %v", err)
     }
 
-    // Migrate the schema
-    database.AutoMigrate(&models.Task{})
+    // Auto migrate tables
+    err = DB.AutoMigrate(&models.User{}, &models.Task{})
+    if err != nil {
+        log.Fatalf("[error] failed to migrate database: %v", err)
+    }
 
-    DB = database
-    fmt.Println("Database connected successfully!")
+    fmt.Println("Database connected and migrated successfully!")
 }

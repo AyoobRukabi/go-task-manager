@@ -3,12 +3,18 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/AyoobRukabi/go-task-manager/handlers"
+	"github.com/AyoobRukabi/go-task-manager/middleware"
 )
 
 func TaskRoutes(r *gin.Engine) {
-	r.POST("/tasks", handlers.CreateTask)
-	r.GET("/tasks", handlers.GetTasks)
-	r.GET("/tasks/:id", handlers.GetTask)
-	r.PUT("/tasks/:id", handlers.UpdateTask)
-	r.DELETE("/tasks/:id", handlers.DeleteTask)
+	// Group routes that require authentication
+	taskGroup := r.Group("/tasks")
+	taskGroup.Use(middleware.AuthMiddleware()) // <-- apply JWT middleware
+	{
+		taskGroup.POST("/", handlers.CreateTask)
+		taskGroup.GET("/", handlers.GetTasks)
+		taskGroup.GET("/:id", handlers.GetTask)
+		taskGroup.PUT("/:id", handlers.UpdateTask)
+		taskGroup.DELETE("/:id", handlers.DeleteTask)
+	}
 }

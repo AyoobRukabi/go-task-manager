@@ -15,6 +15,9 @@ func main() {
 	r.GET("/ping", handlers.PingHandler)
 	r.GET("/hello", handlers.HelloHandler)
 
+	// Register user routes
+    routes.UserRoutes(r) 
+
 	// Week 3 Task routes
 	routes.TaskRoutes(r)
 

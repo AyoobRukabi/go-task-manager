@@ -162,3 +162,136 @@ curl -X DELETE http://localhost:8080/tasks/1
 * Write **unit tests**
 * Add **Swagger API documentation**
 * Dockerize the app and deploy
+
+
+
+
+---
+
+### Week 4 (JWT Authentication)
+
+## Features (Week 4)
+
+* JWT-based **user authentication**
+* Register and login users
+* Protect task routes with **Authorization: Bearer token**
+* Ready for Docker, Swagger, and deployment
+
+---
+
+## User Routes
+
+| Method | Endpoint  | Description             |
+| ------ | --------- | ----------------------- |
+| POST   | /register | Register a new user     |
+| POST   | /login    | Login and get JWT token |
+
+---
+
+### Example curl commands
+
+**Register a user:**
+
+```bash
+curl -X POST http://localhost:8080/register \
+-H "Content-Type: application/json" \
+-d '{"username":"Ayoob","password":"mypassword"}'
+```
+
+**Login and get token:**
+
+```bash
+curl -X POST http://localhost:8080/login \
+-H "Content-Type: application/json" \
+-d '{"username":"Ayoob","password":"mypassword"}'
+```
+
+Response:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+---
+
+## Task Routes (JWT Protected)
+
+| Method | Endpoint    | Description           |
+| ------ | ----------- | --------------------- |
+| POST   | /tasks      | Create a task         |
+| GET    | /tasks      | List all tasks        |
+| GET    | /tasks/\:id | Get single task by ID |
+| PUT    | /tasks/\:id | Update a task         |
+| DELETE | /tasks/\:id | Delete a task         |
+
+> **All task endpoints require the JWT token in the header**:
+
+```
+Authorization: Bearer <token>
+```
+
+**Create a task (example):**
+
+```bash
+curl -X POST http://localhost:8080/tasks/ \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <your_token_here>" \
+-d '{"title":"Learn Go","completed":false}'
+```
+
+**Get all tasks:**
+
+```bash
+curl -X GET http://localhost:8080/tasks/ \
+-H "Authorization: Bearer <your_token_here>"
+```
+
+**Update a task:**
+
+```bash
+curl -X PUT http://localhost:8080/tasks/1 \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <your_token_here>" \
+-d '{"title":"Master Go","completed":true}'
+```
+
+**Delete a task:**
+
+```bash
+curl -X DELETE http://localhost:8080/tasks/1 \
+-H "Authorization: Bearer <your_token_here>"
+```
+
+---
+
+## Environment Variable
+
+Set the JWT secret **before running the app**:
+
+```bash
+export JWT_SECRET="your_strong_secret_here"
+go run ./cmd/main.go
+```
+
+---
+
+✅ This README now fully documents **Week 4**.
+
+Next step: **commit Week 4 changes + updated README** and push to GitHub.
+
+Here’s the **git command block** you can use:
+
+```bash
+git add .
+git commit -m "Week 4: Add JWT authentication and update README"
+git push origin main
+```
+
+---
+
+If you want, I can also **write a final checklist for Week 4** to make sure your repo is completely CV-ready and professional.
+
+Do you want me to do that?
+
