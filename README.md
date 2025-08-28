@@ -1,14 +1,34 @@
+# Go Task Manager API
 
-# Go Task Manager API (Week 1)
+A RESTful API for managing tasks. Built with Go (Gin) + PostgreSQL (GORM).
 
-This is the starting point of my Go backend project.  
-Week 1 goal: set up a simple API server using Gin.
+---
 
-## Features (Week 1)
+## 📅 Project Roadmap
+
+### Week 1 – Setup & Basic API
 - Go module initialized
 - Gin framework installed
-- `/ping` endpoint → returns JSON
+- `/ping` endpoint → returns `{ "message": "pong" }`
 - `/hello?name=YourName` endpoint → returns personalized greeting
+
+### Week 2 – Database & Models
+- Connected Go API to PostgreSQL using GORM
+- Created `Task` model with fields:
+  - ID
+  - Title
+  - Completed
+  - DueDate
+  - CreatedAt
+  - UpdatedAt
+- Migrated database schema automatically with GORM
+- Tested database insert & read operations
+
+---
+
+## 📂 Project Structure
+
+
 
 ## Getting Started
 
