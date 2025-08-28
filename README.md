@@ -35,5 +35,5 @@ A RESTful API for managing tasks. Built with Go (Gin) + PostgreSQL (GORM).
 ### 1. Clone repository
 ```bash
 git clone https://github.com/AyoobRukabi/go-task-manager.git
-cd go-task-manager/cmd
+go run ./cmd/main.go
 
